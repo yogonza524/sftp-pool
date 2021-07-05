@@ -19,7 +19,7 @@ implementation group: 'org.apache.commons', name: 'commons-pool2', version: '2.6
 docker run -p 22:22 emberstack/sftp --name sftp
 ```
 2. Create a SessionPool for SFTP Connection
-```
+```java
 DefaultSessionFactory sessionFactory = new DefaultSessionFactory();
 sessionFactory.setHostname("127.0.0.1");
 sessionFactory.setUsername("demo");
@@ -29,18 +29,18 @@ sessionFactory.setConfig("StrictHostKeyChecking", "no");
 SessionManager sm = new SessionManager(sessionFactory);
 ```
 3. Create a pool
-```
+```java
 ObjectPool<ChannelSftp> pool =
         ChannelSftpConnectionsFactory.createPool(sm, new GenericObjectPoolConfig<>());
 ```
 4. Try to upload a sample file 
-```
+```java
 // Get file from resources
 URL res = getClass().getClassLoader().getResource("to_upload.txt");
 File file = Paths.get(res.toURI()).toFile();
 ```
 5. Excute with a Lambda fashion
-```
+```java
 ChannelSftpConnectionsFactory.execute(
       pool,
       sftp -> {
